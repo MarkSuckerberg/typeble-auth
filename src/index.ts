@@ -41,16 +41,17 @@ if (refreshToken) {
 		console.log(argv.json ? data : data.access_token);
 	});
 } else {
-	open(
-		typebleAuth(
-			process.env.CONSUMER_ID,
-			process.env.CONSUMER_SECRET,
-			scopes,
-			redirectURI,
-			port,
-			data => {
-				console.log(argv.json ? data : data.access_token);
-			}
-		)
+	const authUrl = typebleAuth(
+		process.env.CONSUMER_ID,
+		process.env.CONSUMER_SECRET,
+		scopes,
+		redirectURI,
+		port,
+		data => {
+			console.log(argv.json ? data : data.access_token);
+		}
 	);
+
+	open(authUrl);
+	console.error(`Please visit ${authUrl} in the browser to authenticate.`);
 }
